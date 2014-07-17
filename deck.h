@@ -8,7 +8,7 @@
 
 class Deck
 {
-private:
+protected:
     int     m_nDecks;
     int     m_nCards;
     BYTE*   m_Cards;
@@ -28,7 +28,9 @@ class DeckUT: public Deck
 {
 
 public:
-    int Init();
+    DeckUT(int nDecks);
+    ~DeckUT();
+    //int Init();
     int Shuffle();
 };
 

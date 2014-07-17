@@ -49,7 +49,7 @@ class Deck;
 
 class BlackJack 
 {
-private:
+protected:
     Player* m_Player;
     Dealer* m_Dealer;
     Deck*   m_Deck;

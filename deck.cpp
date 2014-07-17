@@ -93,3 +93,24 @@ int Deck::GetNextCard()
 }
 
 
+////////////////////////////
+////////////////////////////
+
+DeckUT::DeckUT(int nDecks) : Deck(nDecks)
+{
+
+}
+
+DeckUT::~DeckUT()
+{
+
+}
+
+int DeckUT::Shuffle()
+{
+    //layout cards in consistent manner
+    for (int i=0; i < m_nCards; i+= sizeof(g_Cards)) {
+        memcpy(&m_Cards[i], g_Cards, sizeof(g_Cards));
+    }
+    return BJ_ERR_SUCCESS;
+}

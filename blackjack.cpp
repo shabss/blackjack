@@ -110,6 +110,10 @@ int BlackJack::NewGame()
     //To Do: Check rv
 
     while (TRUE) {
+
+        //ToDo: Who goes first? Dealer of player?
+        //Then who busts first?
+
         rv = m_Dealer->Hit(m_Deck->GetNextCard());
         rv = plyhit ? m_Player->Hit(m_Deck->GetNextCard()) : BJ_ERR_SUCCESS;
 
