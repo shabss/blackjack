@@ -26,9 +26,9 @@ typedef unsigned char BYTE;
 #define FALSE 0
 #endif //FALSE
 
-//#ifndef NULL
-//#define NULL 0
-//#endif
+#ifndef NULL
+#define NULL 0
+#endif
 
 //RET VALs
 #define BJ_ERR_SUCCESS           0

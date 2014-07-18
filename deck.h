@@ -23,14 +23,26 @@ public:
     virtual int GetNextCard();
 };
 
-//To Do:
+
+typedef struct _DeckUTInfo {
+    BYTE *pCards;
+    int nCards;
+    _DeckUTInfo() {
+        pCards = NULL;
+        nCards = 0;
+    }
+} DeckUTInfo;
+
+
 class DeckUT: public Deck
 {
+protected:
+    DeckUTInfo*   m_Info;
 
 public:
-    DeckUT(int nDecks);
-    ~DeckUT();
-    //int Init();
+    DeckUT(int nDecks, DeckUTInfo* info);
+    virtual ~DeckUT();
+    int Init();
     int Shuffle();
 };
 

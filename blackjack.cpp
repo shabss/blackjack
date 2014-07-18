@@ -102,31 +102,34 @@ int BlackJack::NewGame()
     m_GameResult = BJ_GMSTATE_UNKNOWN;
     rv = m_Dealer->Init();
     rv = m_Player->Init();
-    rv = m_Deck->Shuffle();
-    //To Do: Check rv
+    //rv = m_Deck->Shuffle();
 
-    m_Dealer->Hit(m_Deck->GetNextCard());
     m_Player->Hit(m_Deck->GetNextCard());
-    //To Do: Check rv
+    m_Dealer->Hit(m_Deck->GetNextCard());
 
     while (TRUE) {
 
-        //ToDo: Who goes first? Dealer of player?
-        //Then who busts first?
-
-        rv = m_Dealer->Hit(m_Deck->GetNextCard());
-        rv = plyhit ? m_Player->Hit(m_Deck->GetNextCard()) : BJ_ERR_SUCCESS;
-
-        //To Do: Check rv
-        rv = DisplayHands();
-
-        dScore = m_Dealer->Score();
+        if (dScore <= 21) {
+            rv = plyhit ? 
+                m_Player->Hit(m_Deck->GetNextCard()) : 
+                BJ_ERR_SUCCESS;
+        }
         pScore = m_Player->Score();
 
-        if ((dScore >= 17) || (pScore > 21)) {
+        if (dScore < 17) {
+            rv = m_Dealer->Hit(m_Deck->GetNextCard());
+        }
+        dScore = m_Dealer->Score();
+
+        rv = DisplayHands();
+
+        if ((dScore >= 21) || (pScore >= 21)) {
             break;
         }
         plyhit = GetHitOrStandChoice();
+        if ((dScore >= 17) && (!plyhit)) {
+            break;
+        }
     }
 
     if (rv != BJ_ERR_SUCCESS) {

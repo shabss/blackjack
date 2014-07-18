@@ -14,8 +14,13 @@ const BYTE g_Cards[] = {1,2,3,4,5,6,7,8,9,10,11,12,13};
 /*static*/
 Deck* Deck::Create(int nDecks, void* info)
 {
-    //ToDo: Create UT depending on info
-    return new Deck(nDecks);
+    Deck* deck = NULL;
+    if (!info) {
+        deck = new Deck(nDecks);
+    } else {
+        deck = new DeckUT(nDecks, (DeckUTInfo*) info);
+    }
+    return deck;
 }
 
 Deck::Deck(int nDecks)
@@ -84,33 +89,44 @@ int Deck::GetNextCard()
     //Note return type is overloaded
     //BYTE when success
     //-ve int on failure
-
-    if (m_CardIdx < m_nCards) {
-        return m_Cards[m_CardIdx++];
-    } else {
-        return BJ_ERR_BOUNDS;
+    int rv = BJ_ERR_SUCCESS;
+    if (m_CardIdx >= m_nCards) {
+        rv = Shuffle();
     }
+    if (rv != BJ_ERR_SUCCESS) {
+        return rv;
+    }
+    return m_Cards[m_CardIdx++];
 }
 
 
 ////////////////////////////
 ////////////////////////////
 
-DeckUT::DeckUT(int nDecks) : Deck(nDecks)
+DeckUT::DeckUT(int nDecks, DeckUTInfo* info) : Deck(nDecks)
 {
+    m_Info = info;
 
 }
 
 DeckUT::~DeckUT()
 {
+    
+}
 
+int DeckUT::Init() 
+{
+    //To Do: Init based on info
+    //for now just call parent's Info
+    return Deck::Init();
 }
 
 int DeckUT::Shuffle()
 {
-    //layout cards in consistent manner
+    //ToDo: Layout cards in as per m_Info
     for (int i=0; i < m_nCards; i+= sizeof(g_Cards)) {
         memcpy(&m_Cards[i], g_Cards, sizeof(g_Cards));
     }
     return BJ_ERR_SUCCESS;
 }
+
